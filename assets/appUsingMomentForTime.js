@@ -22,57 +22,93 @@ $('#currentTime').text(moment().format('LT'))
 // Array to store the day's schedule in. Each object represents a single hour block of the day, whether that time slot is available (Busy = false) or not, and the text of any event scheduled for that time slot (default value = empty).
 let schedule = [
   {
-    time: moment().hour(9).format('h'),
+    time: moment().startOf('day').add(9, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(10).format('h'),
+    time: moment().startOf('day').add(10, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(11).format('h'),
+    time: moment().startOf('day').add(11, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(12).format('h'),
+    time: moment().startOf('day').add(12, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(13).format('h'),
+    time: moment().startOf('day').add(13, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(14).format('h'),
+    time: moment().startOf('day').add(14, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(15).format('h'),
+    time: moment().startOf('day').add(15, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(16).format('h'),
+    time: moment().startOf('day').add(16, 'hours').format('LT'),
     busy: false,
     event: ''
   },
   {
-    time: moment().hour(17).format('h'),
+    time: moment().startOf('day').add(17, 'hours').format('LT'),
     busy: false,
     event: ''
   }
 ]
 
 // variable to let me set a psuedo "current" time that I can use to test functionality against
-let testTime = moment().format('h')
+let testTime = moment().startOf('day').add(12, 'hours')
 
-console.log(parseInt(schedule[0].time))
-console.log(parseInt(testTime))
 
-console.log(schedule < moment().format('h'))
+// I can't seem to get the isBefore isSame to work with the time pulled from the array. Not sure why.
+console.log(moment(schedule[0].time).isBefore(moment().add(1, 'hour'), 'hour'))
 
+
+// populate the array as a blank schedule showing 9AM to 5pm
+for (let i = 0; i < schedule.length; i++) {
+  console.log('hi')
+
+  // This variable will be set by the if statement that's currently commented out below. It will be used to set the class for the row as past, present, or future.
+  let status = 'past'
+
+  console.log(moment(schedule[i].time))
+
+  if (moment(schedule[i].time).isBefore(moment().add(1, 'hour'), 'hour')) {
+    // moment().startOf('hour') //will likely want this as the comparison point in the real app
+    status = "past"
+  } else if (moment(schedule[i].time).isSame(moment().add(1, 'hour'), 'hour')) {
+    status = "present"
+  } else {
+    status = "future"
+  }
+
+  $('#planner').append(`
+    <div class="row">
+      <div class="col-1 hour">
+        ${schedule[i].time}
+      </div>
+      <div class="col-8 ${status}">
+        <textarea></textarea>
+      </div>
+      <div id="Btn${i}" class="col-1 saveBtn">
+        ${addBtn}
+      </div>
+    </div>
+  `)
+
+  // if ($('#Btn${i}').click() => {
+  //   console.log($('#Btn${i}'))
+  // })
+}
