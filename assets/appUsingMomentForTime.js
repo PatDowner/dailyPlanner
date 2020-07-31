@@ -1,4 +1,4 @@
-// cute calendar icon to click to save event
+i// cute calendar icon to click to save event
 let addBtn = `<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-calendar-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
   <path fill-rule="evenodd" d="M7.5 9.5A.5.5 0 0 1 8 9h2a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0v-2z"/>
@@ -69,7 +69,8 @@ let schedule = [
 ]
 
 // variable to let me set a psuedo "current" time that I can use to test functionality against
-let testTime = moment().startOf('day').add(12, 'hours')
+let testTime = moment()
+// .startOf('day').add(12, 'hours')
 
 
 // I can't seem to get the isBefore isSame to work with the time pulled from the array. Not sure why.
@@ -85,26 +86,22 @@ for (let i = 0; i < schedule.length; i++) {
 
   console.log(moment(schedule[i].time))
 
-  if (moment(schedule[i].time).isBefore(moment().add(1, 'hour'), 'hour')) {
+  if (moment(schedule[i].time).isBefore(moment(testTime))) {
     // moment().startOf('hour') //will likely want this as the comparison point in the real app
     status = "past"
-  } else if (moment(schedule[i].time).isSame(moment().add(1, 'hour'), 'hour')) {
+  } else if (moment(schedule[i].time).isSame(moment(testtime))) {
     status = "present"
   } else {
     status = "future"
   }
 
   $('#planner').append(`
-    <div class="row">
-      <div class="col-1 hour">
+    <div class="row time-block">
+      <div class="col-md-1 hour">
         ${schedule[i].time}
       </div>
-      <div class="col-8 ${status}">
-        <textarea></textarea>
-      </div>
-      <div id="Btn${i}" class="col-1 saveBtn">
-        ${addBtn}
-      </div>
+      <textarea class="${schedule[i].time} col-md-10 description"></textarea> 
+      <button id="btn${i}" class="btn saveBtn col-md-1"><i class='fas fa-save"></i></button>
     </div>
   `)
 
