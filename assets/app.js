@@ -55,23 +55,23 @@ $(document).ready(function () {
   ]
 
   // variable to let me set a psuedo "current" time that I can use to test functionality against
-  let fakeTime = moment().hour(13).format('HH')
+  let currentTime = moment().format('HH')
 
   // moment().minutes(00).format('h')
   let status = ''
-  // console.log(parseInt(fakeTime))
+  // console.log(parseInt(currentTime))
   // console.log(moment().startOf('day').add(13, 'hours').format('h:ss a'))
   // console.log(parseInt(schedule[0].time))
   // console.log(schedule[0].dispTime)
 
 
   for (let i = 0; i < schedule.length; i++) {
-    console.log(schedule[i].time < fakeTime)
-    console.log(schedule[i].dispTime < fakeTime)
+    console.log(schedule[i].time < currentTime)
+    console.log(schedule[i].dispTime < currentTime)
     console.log('loop')
-    if (schedule[i].time < fakeTime) {
+    if (schedule[i].time < currentTime) {
       status = 'past'
-    } else if (schedule[i].time === fakeTime) {
+    } else if (schedule[i].time === currentTime) {
       status = 'present'
     } else {
       status = 'future'
